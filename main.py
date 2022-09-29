@@ -4,8 +4,6 @@ from turtle import title
 import requests
 # pip install beautifulsoup4
 from bs4 import BeautifulSoup
-# pip install html5lib
-import html5lib
 
 base_url = "https://bs.to/"
 
@@ -48,7 +46,7 @@ if __name__ == "__main__":
     # get all seasons href
     season_links = get_season_links(soup)
 
-    # getting all video links from a season
+    # getting all video links from all season
     for link in season_links:
         video_links.extend(get_video_links(link))
 

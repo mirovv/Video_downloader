@@ -29,7 +29,9 @@ def get_season_links(soup):
 
     return season_links
 
-def get_video_links(soup):
+def get_video_links(url):
+
+    soup = get_soup(url)
 
     # get all href of Vidoza Vide
 
@@ -39,10 +41,16 @@ def get_video_links(soup):
 
 if __name__ == "__main__":
 
+    video_links = []
+
     soup = get_soup(str(input("Please enter URL of a series: \n")))
 
     # get all seasons href
     season_links = get_season_links(soup)
 
     # getting all video links from a season
-    video_links = get_video_links(soup)
+    for link in season_links:
+        video_links.extend(get_video_links(link))
+
+    for link in video_links:
+        print(link)

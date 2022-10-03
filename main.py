@@ -1,5 +1,4 @@
 # pip install requests
-import re
 from turtle import title
 import requests
 # pip install beautifulsoup4
@@ -31,18 +30,35 @@ def get_video_links(url):
 
     soup = get_soup(url)
 
-    # get all href of Vidoza Vide
+    # get soup of Vidoza
 
-    video_links = [base_url + link.get("href") for link in soup.find_all("a", title="Vidoza")]
+    a_tag_soup = soup.find_all("a", title="Vidoza")
+
+    # check if array is empty
+
+    if not a_tag_soup:
+        a_tag_soup = soup.find_all("a", title="Streamtape")
+
+    # get all href of Vidoza Videos
+
+    video_links = [base_url + link.get("href") for link in a_tag_soup]
 
     return video_links
+
+def write_txt_File(arr):
+
+    f = open("bluemountainstate_links.txt", "w")
+
+    for link in arr:
+        f.write(link + "\n")
+
+    f.close()
 
 if __name__ == "__main__":
 
     video_links = []
 
-    soup = get_soup(str(input("Please enter URL of a series: \n")))
-
+    soup = get_soup(str(input("\nPlease enter URL of a series: \n")))
     # get all seasons href
     season_links = get_season_links(soup)
 
@@ -50,5 +66,4 @@ if __name__ == "__main__":
     for link in season_links:
         video_links.extend(get_video_links(link))
 
-    for link in video_links:
-        print(link)
+    write_txt_File(video_links)
